@@ -2,21 +2,23 @@
 //= require jquery-ui/effect
 
 /*!
- * jQuery UI Effects Slide 1.12.1
- * http://jqueryui.com
+ * jQuery UI Effects Slide 1.13.3
+ * https://jqueryui.com
  *
- * Copyright jQuery Foundation and other contributors
+ * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license.
- * http://jquery.org/license
+ * https://jquery.org/license
  */
 
 //>>label: Slide Effect
 //>>group: Effects
 //>>description: Slides an element in and out of the viewport.
-//>>docs: http://api.jqueryui.com/slide-effect/
-//>>demos: http://jqueryui.com/effect/
+//>>docs: https://api.jqueryui.com/slide-effect/
+//>>demos: https://jqueryui.com/effect/
 
 ( function( factory ) {
+	"use strict";
+
 	if ( typeof define === "function" && define.amd ) {
 
 		// AMD. Register as an anonymous module.
@@ -30,7 +32,8 @@
 		// Browser globals
 		factory( jQuery );
 	}
-}( function( $ ) {
+} )( function( $ ) {
+"use strict";
 
 return $.effects.define( "slide", "show", function( options, done ) {
 	var startClip, startRef,
@@ -76,4 +79,4 @@ return $.effects.define( "slide", "show", function( options, done ) {
 	} );
 } );
 
-} ) );
+} );
