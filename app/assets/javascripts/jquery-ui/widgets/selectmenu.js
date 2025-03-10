@@ -1,5 +1,4 @@
 //= require jquery-ui/widgets/menu
-//= require jquery-ui/escape-selector
 //= require jquery-ui/form-reset-mixin
 //= require jquery-ui/keycode
 //= require jquery-ui/labels
@@ -9,33 +8,34 @@
 //= require jquery-ui/widget
 
 /*!
- * jQuery UI Selectmenu 1.12.1
- * http://jqueryui.com
+ * jQuery UI Selectmenu 1.13.3
+ * https://jqueryui.com
  *
- * Copyright jQuery Foundation and other contributors
+ * Copyright OpenJS Foundation and other contributors
  * Released under the MIT license.
- * http://jquery.org/license
+ * https://jquery.org/license
  */
 
 //>>label: Selectmenu
 //>>group: Widgets
-// jscs:disable maximumLineLength
+/* eslint-disable max-len */
 //>>description: Duplicates and extends the functionality of a native HTML select element, allowing it to be customizable in behavior and appearance far beyond the limitations of a native select.
-// jscs:enable maximumLineLength
-//>>docs: http://api.jqueryui.com/selectmenu/
-//>>demos: http://jqueryui.com/selectmenu/
+/* eslint-enable max-len */
+//>>docs: https://api.jqueryui.com/selectmenu/
+//>>demos: https://jqueryui.com/selectmenu/
 //>>css.structure: ../../themes/base/core.css
 //>>css.structure: ../../themes/base/selectmenu.css, ../../themes/base/button.css
 //>>css.theme: ../../themes/base/theme.css
 
 ( function( factory ) {
+	"use strict";
+
 	if ( typeof define === "function" && define.amd ) {
 
 		// AMD. Register as an anonymous module.
 		define( [
 			"jquery",
 			"./menu",
-			"../escape-selector",
 			"../form-reset-mixin",
 			"../keycode",
 			"../labels",
@@ -49,10 +49,11 @@
 		// Browser globals
 		factory( jQuery );
 	}
-}( function( $ ) {
+} )( function( $ ) {
+"use strict";
 
 return $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
-	version: "1.12.1",
+	version: "1.13.3",
 	defaultElement: "<select>",
 	options: {
 		appendTo: null,
@@ -107,7 +108,7 @@ return $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 		this.labels = this.element.labels().attr( "for", this.ids.button );
 		this._on( this.labels, {
 			click: function( event ) {
-				this.button.focus();
+				this.button.trigger( "focus" );
 				event.preventDefault();
 			}
 		} );
@@ -362,7 +363,12 @@ return $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 		if ( item.disabled ) {
 			this._addClass( li, null, "ui-state-disabled" );
 		}
-		this._setText( wrapper, item.label );
+
+		if ( item.hidden ) {
+			li.prop( "hidden", true );
+		} else {
+			this._setText( wrapper, item.label );
+		}
 
 		return li.append( wrapper ).appendTo( ul );
 	},
@@ -425,7 +431,7 @@ return $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 		// Support: IE
 		// Setting the text selection kills the button focus in IE, but
 		// restoring the focus doesn't kill the selection.
-		this.button.focus();
+		this.button.trigger( "focus" );
 	},
 
 	_documentClick: {
@@ -435,7 +441,7 @@ return $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 			}
 
 			if ( !$( event.target ).closest( ".ui-selectmenu-menu, #" +
-					$.ui.escapeSelector( this.ids.button ) ).length ) {
+				$.escapeSelector( this.ids.button ) ).length ) {
 				this.close( event );
 			}
 		}
@@ -679,6 +685,7 @@ return $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 			index: index,
 			value: option.val(),
 			label: option.text(),
+			hidden: optgroup.prop( "hidden" ) || option.prop( "hidden" ),
 			optgroup: optgroup.attr( "label" ) || "",
 			disabled: optgroup.prop( "disabled" ) || option.prop( "disabled" )
 		};
@@ -694,4 +701,4 @@ return $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 	}
 } ] );
 
-} ) );
+} );
